@@ -1,0 +1,102 @@
+﻿<mah:MetroWindow x:Class="VA.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 Title="MainWindow"
+                 Height="600"
+                 Width="800">
+
+    <Grid>
+
+        <TabControl Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}">
+            <mah:MetroTabItem Header="Profile">
+                <TabControl Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
+                            HorizontalAlignment="Center" Margin="0,100,0,0">
+                    <mah:MetroTabItem Header="Sign In">
+                        <StackPanel Orientation="Vertical">
+                            <Grid Width="300">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Grid.Row="0" mah:TextBoxHelper.Watermark="Yore login"
+                                         Margin="0,10,-0,0" />
+
+                                <TextBox Grid.Column="0" Grid.Row="1" mah:TextBoxHelper.Watermark="Yore password"
+                                         Margin="0,10,-0,0" />
+                                <CheckBox Grid.Column="1" Grid.Row="1" Margin="10,10,0,0">Show Password</CheckBox>
+
+                            </Grid>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                <Button Style="{DynamicResource MahApps.Styles.Button.Square}" Width="100"
+                                        Margin="0,0,0,0">
+                                    Forgot password
+                                </Button>
+                                <Button Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Width="100"
+                                        Content="Sign In" Margin="80,0,0,0" />
+
+                            </StackPanel>
+                        </StackPanel>
+                    </mah:MetroTabItem>
+                    <mah:MetroTabItem Header="Sign Up">
+                        <StackPanel>
+                            <Grid Width="300">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Grid.Row="0" mah:TextBoxHelper.Watermark="Yore login"
+                                         Margin="0,10,-0,0" />
+
+                                <TextBox Grid.Column="0" Grid.Row="1" mah:TextBoxHelper.Watermark="Yore password"
+                                         Margin="0,10,-0,0" />
+                                <TextBox Grid.Column="0" Grid.Row="2" mah:TextBoxHelper.Watermark="Confirm password"
+                                         Margin="0,10,-0,0" />
+                                <CheckBox Grid.Column="1" Grid.Row="1" Margin="10,10,0,0">Show Password</CheckBox>
+
+                            </Grid>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                <Button Style="{DynamicResource MahApps.Styles.Button.Square}" Width="100"
+                                        Margin="0,0,0,0">
+                                    Forgot password
+                                </Button>
+                                <Button Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Width="100"
+                                        Content="Sign Up" Margin="80,0,0,0" />
+
+                            </StackPanel>
+                        </StackPanel>
+                    </mah:MetroTabItem>
+                </TabControl>
+
+            </mah:MetroTabItem>
+            <mah:MetroTabItem Header="DB reports">
+                <StackPanel>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="0.5*"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Column="1" Grid.RowSpan="2" Style="{StaticResource AzureDataGrid}" />
+
+                    </Grid>
+                </StackPanel>
+                </mah:MetroTabItem>
+                <mah:MetroTabItem Header="aaaaaaa" />
+
+        </TabControl>
+
+    </Grid>
+</mah:MetroWindow>
