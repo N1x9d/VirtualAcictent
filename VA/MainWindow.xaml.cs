@@ -21,9 +21,10 @@ namespace VA
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public MainWindow()
+        public MainWindow() => InitializeComponent();
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            InitializeComponent();
         }
     }
 }

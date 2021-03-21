@@ -8,7 +8,7 @@
 
     <Grid>
 
-        <TabControl Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}">
+        <TabControl Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}" SelectionChanged="TabControl_SelectionChanged">
             <mah:MetroTabItem Header="Profile">
                 <TabControl Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
                             HorizontalAlignment="Center" Margin="0,100,0,0">
@@ -80,21 +80,35 @@
             </mah:MetroTabItem>
             <mah:MetroTabItem Header="DB reports">
                 <StackPanel>
-                <Grid >
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition  Width="0.5*"/>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <DataGrid Grid.Column="1" Grid.RowSpan="2" Style="{StaticResource AzureDataGrid}" />
+                    <Grid Height="300">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  Width="0.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid Grid.Column="1" Grid.RowSpan="5"  />
+
+                        <Button Grid.Column="0" Grid.Row="5" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Width="100"
+                            Content="Get Report" />
+                        <Button Grid.Column="1" Grid.Row="5" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Width="100"
+                                Content="Clear" />
+                        <RadioButton Grid.Column="0" Grid.Row="0" Content="Часто используемые запросы (отчет в Excel)"></RadioButton>
+                        <RadioButton Grid.Column="0" Grid.Row="1" Content="Список пользователей с их ролями"></RadioButton>
+                        <RadioButton Grid.Column="0" Grid.Row="2" Content="Список запросов данного типа"></RadioButton>
+                        <RadioButton Grid.Column="0" Grid.Row="3" Content="История запросов с устройства"></RadioButton>
+                        <RadioButton Grid.Column="0" Grid.Row="4" Content="Не обработанные запросы"></RadioButton>
 
                     </Grid>
                 </StackPanel>
-                </mah:MetroTabItem>
-                <mah:MetroTabItem Header="aaaaaaa" />
+            </mah:MetroTabItem>
 
         </TabControl>
 
