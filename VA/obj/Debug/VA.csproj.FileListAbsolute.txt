@@ -50,3 +50,5 @@ C:\Users\nsh19\Source\Repos\VirtualAcictent\VA\obj\Debug\VA.csproj.CoreCompileIn
 C:\Users\nsh19\Source\Repos\VirtualAcictent\VA\obj\Debug\VA.csproj.CopyComplete
 C:\Users\nsh19\Source\Repos\VirtualAcictent\VA\obj\Debug\VA.exe
 C:\Users\nsh19\Source\Repos\VirtualAcictent\VA\obj\Debug\VA.pdb
+C:\Users\nsh19\Source\Repos\VirtualAcictent\VA\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\nsh19\Source\Repos\VirtualAcictent\VA\obj\Debug\VA_MarkupCompile.lref
