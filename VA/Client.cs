@@ -11,7 +11,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.UI;
 using System.Windows;
+using Newtonsoft.Json;
 
 namespace VA
 {
@@ -21,7 +23,7 @@ namespace VA
         // Client socket.  
         public Socket workSocket = null;
         // Size of receive buffer.  
-        public const int BufferSize = 256;
+        public const int BufferSize = 1024;
         // Receive buffer.  
         public byte[] buffer = new byte[BufferSize];
         // Received data string.  
@@ -43,7 +45,7 @@ namespace VA
         // The response from the remote device.  
         private static String response = String.Empty;
 
-        private static void StartClient()
+        private static async void StartClient()
         {
             // Connect to a remote device.  
             try
@@ -51,12 +53,12 @@ namespace VA
                 // Establish the remote endpoint for the socket.  
                 // The name of the
                 // remote device is "host.contoso.com".  
-                IPHostEntry ipHostInfo = Dns.GetHostEntry("host.contoso.com");
-                IPAddress ipAddress = ipHostInfo.AddressList[0];
+                //IPHostEntry ipHostInfo = Dns.GetHostEntry("host.contoso.com");
+                //IPAddress ipAddress = ipHostInfo.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse("192.168.1.209"), port);
 
                 // Create a TCP/IP socket.  
-                client = new Socket(ipAddress.AddressFamily,
+                client = new Socket(IPAddress.Parse("192.168.1.209").AddressFamily,
                     SocketType.Stream, ProtocolType.Tcp);
 
                 // Connect to the remote endpoint.  
@@ -65,7 +67,7 @@ namespace VA
                 connectDone.WaitOne();
 
                 // Send test data to the remote device.  
-                sendDone.WaitOne();
+                Send("");
 
                 // Receive the response from the remote device.  
                 Receive();
@@ -144,11 +146,29 @@ namespace VA
                 if (bytesRead > 0)
                 {
                     // There might be more data, so store the data received so far.  
-                    state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
+                    if(IsReport)
+                        state.sb.Append(Encoding.UTF8.GetString(state.buffer, 0, bytesRead));
+                    else
+                    {
+                        state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
+                    }
+                    if (state.sb.Length > 1 && !IsReport)
+                    {
+                       
+                        vm.ServerAnswer = state.sb.ToString();
+                        state.sb.Clear();
+                    }
+                    else
+                    {
 
+                        DeserializeData(state.sb.ToString());
+                        state.sb.Clear();
+
+                    }
                     // Get the rest of the data.  
                     client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                         new AsyncCallback(ReceiveCallback), state);
+                    
                 }
                 else
                 {
@@ -157,19 +177,16 @@ namespace VA
                     {
                         vm.ServerAnswer = state.sb.ToString();
                     }
-                    else
-                    {
-                       
-                        GetDataTable(state.buffer);
-
-                    }
+                   
                     // Signal that all bytes have been received.  
                     receiveDone.Set();
                 }
             }
+            
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+               MessageBox.Show(e.ToString());
+              
             }
         }
 
@@ -210,7 +227,7 @@ namespace VA
 
         public Client()
         {
-           StartClient();
+           Task.Run(StartClient);
         }
 
         
@@ -218,9 +235,9 @@ namespace VA
 
 
 
-        public bool IsEnter { get; private set; } = false;
-        public static bool IsReport { get; private set; } = false;
-        public bool IsSault { get; private set; } = false;
+        public static bool IsEnter { get; private set; }
+        public static bool IsReport { get; private set; } 
+        public static bool IsSault { get; private set; } 
         private string _serverResponce;
 
 
@@ -242,14 +259,14 @@ namespace VA
 
         public void Login(string login, string pass)
         {
-            var Hesh = sha256_hash(pass);
+            //var Hesh = sha256_hash(pass);
             var reqString = $"LOGIN login {login} password {pass}";
             ReqestTypeSwither(2);
             Send(reqString);
         }
         public void Register(string login, string password, string role)
         {
-            var Hesh = sha256_hash(password);
+            //var Hesh = sha256_hash(password);
             var reqString = $"REGISTR login {login} password {password} role u";
             ReqestTypeSwither(2);
             Send(reqString);
@@ -267,7 +284,11 @@ namespace VA
             ReqestTypeSwither(1);
             Send(reqString);
         }
-
+        /// <summary>
+        /// это не работает
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public String sha256_hash(String value)
         {
             using (SHA256 hash = SHA256Managed.Create())
@@ -278,21 +299,15 @@ namespace VA
             }
         }
 
-       
-        static void GetDataTable(byte[] dtData)
-        {
-            DataTable dt = null;
-            BinaryFormatter bFormat = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream(dtData))
-            {
-                dt = (DataTable) bFormat.Deserialize(ms);
-            }
-            vm.ServerAnswer = "done";
-            vm.Db = dt;
 
+        public static void DeserializeData(string json)
+        {
+            ReqestTypeSwither();
+            var a = JsonConvert.DeserializeObject<DataSet>(json);
+            vm.Db = a.Tables[0];
         }
 
-        public void ReqestTypeSwither(int i = 0)
+        public static void ReqestTypeSwither(int i = 0)
         {
             switch (i)
             {
@@ -336,13 +351,13 @@ namespace VA
                     !string.IsNullOrEmpty(tempMac) &&
                     tempMac.Length >= MIN_MAC_ADDR_LENGTH)
                 {
-                    Console.WriteLine("New Max Speed = " + nic.Speed + ", MAC: " + tempMac);
+                  
                     maxSpeed = nic.Speed;
                     macAddress = tempMac;
                 }
             }
 
-            return macAddress;
+            return macAddress+" ";
         }
 
         

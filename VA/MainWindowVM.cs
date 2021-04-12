@@ -34,6 +34,7 @@ namespace VA
         private string acsessType = "u";
         private RelayCommand login;
         private RelayCommand registr;
+        private RelayCommand rep;
         private string _param;
         private bool _dbEnable=false;
 
@@ -45,7 +46,14 @@ namespace VA
                        (registr = new RelayCommand(obj => LoginUser()));
             }
         }
-
+        public RelayCommand Report
+        {
+            get
+            {
+                return rep ??
+                       (rep = new RelayCommand(obj => GetReport()));
+            }
+        }
         public RelayCommand SignUp
         {
             get
@@ -173,8 +181,9 @@ namespace VA
             set
             {
                 _serverAnswer = value;
-                if (client.IsSault)
+                if (Client.IsSault)
                 {
+                    Client.ReqestTypeSwither();
                     if (!IsRegistr)
                         client.Login(Login, Passwd + ServerAnswer);
                     else
@@ -182,17 +191,17 @@ namespace VA
                         client.Register(Login, Passwd + ServerAnswer, "u");
                     }
 
-                    client.ReqestTypeSwither();
+                    
                 }
-                else if (client.IsEnter)
+                else if (Client.IsEnter)
                 {
-                    if (ServerAnswer == "true")
+                    if (ServerAnswer == "True")
                     {
                         StreamWriter sr = new StreamWriter("acountData.txt");
                         sr.WriteLine(Login);
                         sr.WriteLine(Passwd);
                         sr.Close();
-                        client.ReqestTypeSwither();
+                        Client.ReqestTypeSwither();
                         MessageBox.Show("Enter successful");
                         dbEnable = true;
                     }
@@ -201,7 +210,7 @@ namespace VA
                 }
                 else if (ServerAnswer == "done" && Client.IsReport)
                 {
-                    client.ReqestTypeSwither();
+                    Client.ReqestTypeSwither();
                 }
             }
         }
@@ -218,6 +227,7 @@ namespace VA
                 {
                     dw.createTableExel(Db);
                 }
+                Client.ReqestTypeSwither();
             }
         }
 

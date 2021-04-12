@@ -105,7 +105,7 @@
                         </Grid.ColumnDefinitions>
                         <DataGrid Grid.Column="1" Grid.RowSpan="5" ItemsSource="{Binding Db, Mode=OneWay }" />
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="5">
-                            <Button Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Width="100"
+                            <Button Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Command="{Binding Report}" Width="100"
                                     Content="Get Report" />
                             <TextBox Grid.Column="0" Grid.Row="1" mah:TextBoxHelper.Watermark="Param"
                                      Margin="10,0,0,0" Text="{Binding Param, Mode=OneWayToSource}"  Width="115"/>
