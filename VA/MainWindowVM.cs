@@ -255,7 +255,12 @@ namespace VA
             if (IsChecked2)
                 client.GetReport("2", "");
             if (IsChecked3)
+            {
+                Param.Replace(' ', '_');
                 client.GetReport("3", Param);
+
+            }
+               
             if (IsChecked4)
                 client.GetReport("4", Client.GetMac());
             if (IsChecked5)
